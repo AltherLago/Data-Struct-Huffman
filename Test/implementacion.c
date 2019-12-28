@@ -66,6 +66,44 @@ Semana 6
 
 #define DEBUG 0
 
+//função utilizada para test isolados
+void test();
+
+//Implementação do que vai ficar na main
+void implementacion();
+
+//Ler arquivo txt
+void read_file();
+
 int main(){
+
+        //test();
+
+        implementacion();
+
         return 0;
+}
+
+//função utilizada para test isolados
+void test(){
+}
+
+//Implementação do que vai ficar na main
+void implementacion(){
+        read_file();
+}
+
+//Ler arquivo txt
+void read_file() {
+        char caractere[10];
+        fgets(caractere, 10, stdin);
+        for (int i = 0; i < 10; ++i) {
+                printf("%d\n", caractere[i]);
+        }
+        /*
+        while(scanf("%c", &caractere) != EOF){
+                printf("Caractere:%c \nCount: %d: \n", caractere, i);
+                ++i;
+        }
+         */
 }

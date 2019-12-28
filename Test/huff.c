@@ -19,23 +19,23 @@ struct pq {
 	node *head;
 };
 
-pq* create_pq() {
-	pq* new_queue = (pq*) malloc(sizeof(pq));
+pq *   create_pq() {
+	pq* new_queue   = (pq*) malloc(sizeof(pq));
 	new_queue->head = NULL;
 	new_queue->size = 0;
 	return new_queue;
 }
 
-node* create_node() {
-	node* new_node = (node*) malloc(sizeof(node));
+node * create_node() {
+	node* new_node     = (node*) malloc(sizeof(node));
 	new_node->priority = 0;
-	new_node->left = NULL;
-	new_node->right = NULL;
-	new_node->next = NULL ;
+	new_node->left     = NULL;
+	new_node->right    = NULL;
+	new_node->next     = NULL ;
 	return new_node;
 }
 
-node* c_tree(unsigned char charac, int amount, node *left, node *right) {
+node * c_tree(unsigned char charac, int amount, node *left, node *right) {
 	node *tree = (node*) malloc(sizeof(node));
 	tree->charac = charac;
 	tree->priority = amount;
@@ -46,7 +46,7 @@ node* c_tree(unsigned char charac, int amount, node *left, node *right) {
 	return tree;
 }
 
-void enqueue(pq *pq, node *tree) {
+void    enqueue(pq *pq, node *tree) {
 	node *aux = tree;
 
 	if(pq->size == 0) {
