@@ -10,15 +10,15 @@ typedef struct hash hash;
 
 struct node {
 	unsigned char charac;	//Armazena o caracter
-	int priority;			//Alterar para void *priority //Armazena a prioridade
-	node *left;				//Guarda o ponteiro do lado esquedo
-	node *right;			//Guarda o ponteiro do lado direito
-	node *next;				//Guarda o ponteiro para o próximo
+	int priority;		//Alterar para void *priority //Armazena a prioridade
+	node *left;		//Guarda o ponteiro do lado esquedo
+	node *right;		//Guarda o ponteiro do lado direito
+	node *next;		//Guarda o ponteiro para o próximo
 };
 
 struct pq {
-	int size;				//Armazena o tamanho da fila de prioridade
-	node *head;				//Guarda o nó da cabeça da fila de prioridade
+	int size;		//Armazena o tamanho da fila de prioridade
+	node *head;		//Guarda o nó da cabeça da fila de prioridade
 };
 
 struct hash {
@@ -98,9 +98,9 @@ pq* enqueue_amount(int amount[]) {
 	node* new_node;
 
 	for(int i = 0; i < 256; i++) {
-		if(amount[i]) {										//Quando achar algo diferente de 0, i será o caracter e amount[i] será sua frequência
+		if(amount[i]) {						//Quando achar algo diferente de 0, i será o caracter e amount[i] será sua frequência
 			new_node = c_tree(i, amount[i], NULL, NULL);	//Já cria em formato de árvore com os ponteiros para esquerda e direita
-			enqueue(pq_new, new_node);						//Coloca na fila
+			enqueue(pq_new, new_node);			//Coloca na fila
 		}
 	}
 
@@ -133,10 +133,10 @@ node *create_huff(pq *pq) {
 	// 	return create_huff_node(pq->head, NULL);
 	// }
 	while (pq->size > 1) {
-		node *left = dequeue(pq);						//Pega o primeiro elemento da fila que é de menor frequência
-		node *right = dequeue(pq);						//							||
-		huff = create_huff_node(left, right);			//Manda os dois menores para formar um novo nó pai e eles serão folhas
-		enqueue(pq, huff);								//Coloca em fila a cada parte da árvore até que sobre somente a raiz
+		node *left = dequeue(pq);			//Pega o primeiro elemento da fila que é de menor frequência
+		node *right = dequeue(pq);			//			   ||
+		huff = create_huff_node(left, right);		//Manda os dois menores para formar um novo nó pai e eles serão folhas
+		enqueue(pq, huff);				//Coloca em fila a cada parte da árvore até que sobre somente a raiz
 	}
 	return pq->head;
 }
@@ -155,7 +155,7 @@ int isLeaf(node *tree) {
 void add_hash(hash *hash, unsigned char item, int total_bits, int sequency[]) {
 	int i;
 	for(i = 0; i < total_bits; i++) {
-		hash->matriz[item][i] = sequency[i];			//Preenche em linha a sequência da letra na posição dela na tabela ASCII
+		hash->matriz[item][i] = sequency[i];	//Preenche em linha a sequência da letra na posição dela na tabela ASCII
 	}
 	//hash->matriz[item][i] = '\0';
 }
@@ -170,9 +170,9 @@ void map_bits(hash *hash, node *tree, int i, int for_bits[]) {
 			add_hash(hash, tree->charac, i, for_bits);
 			return;
 		}
-		for_bits[i] = 0;								//Vai adicionar o 0 e andar para a esquerda na chamada
+		for_bits[i] = 0;				//Vai adicionar o 0 e andar para a esquerda na chamada
 		map_bits(hash, tree->left, i+1, for_bits);
-		for_bits[i] = 1;								//Vai adicionar o 1 e andar para a direita na chamada
+		for_bits[i] = 1;				//Vai adicionar o 1 e andar para a direita na chamada
 		map_bits(hash, tree->right, i+1, for_bits);
 	}
 }
@@ -194,7 +194,7 @@ void frequency(FILE *file, int amount[]) {
 	unsigned char charac;
 
 	while(fscanf(file, "%c", &charac) != EOF) { 
-		amount[charac] += 1;							//Charac é o valor do caracter na tabela ASCII, adicionando a quantidade dela que existe
+		amount[charac] += 1;			//Charac é o valor do caracter na tabela ASCII, adicionando a quantidade dela que existe
 	}
 	amount[10] -= 1;
 }
