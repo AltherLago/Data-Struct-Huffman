@@ -6,25 +6,22 @@
 typedef struct node node;
 typedef struct pq pq;
 
+
 struct node {
-	unsigned char charac;
-	int priority;
-	node *left;
-	node *right;
-	node *next;
+	unsigned char charac; //Armazena o caracter
+	int priority;         //aqui é para ser void * priority //Armazena a prioridade
+	node *left;           //Guarda o ponteiro do lado esquedo
+	node *right;          //Guarda o ponteiro do lado direito
+	node *next;           //Guarda o ponteiro para o próximo
 };
 
 struct pq {
-	int size;
-	node *head;
+	int size;  //Armazena o tamanho da fila de prioridade
+	node *head;//Guarda o nó da cabeça da fila de prioridade
 };
 
-pq *   create_pq() {
-	pq* new_queue   = (pq*) malloc(sizeof(pq));
-	new_queue->head = NULL;
-	new_queue->size = 0;
-	return new_queue;
-}
+///@return novo ponteiro um novo ponteiro para fila de prioridade
+pq *   create_pq();
 
 node * create_node() {
 	node* new_node     = (node*) malloc(sizeof(node));
@@ -36,12 +33,12 @@ node * create_node() {
 }
 
 node * c_tree(unsigned char charac, int amount, node *left, node *right) {
-	node *tree = (node*) malloc(sizeof(node));
-	tree->charac = charac;
+	node *tree     = (node*) malloc(sizeof(node));
+	tree->charac   = charac;
 	tree->priority = amount;
-	tree->next = NULL;
-	tree->left = left;
-	tree->right = right;
+	tree->next     = NULL;
+	tree->left     = left;
+	tree->right    = right;
 
 	return tree;
 }
@@ -50,14 +47,14 @@ void    enqueue(pq *pq, node *tree) {
 	node *aux = tree;
 
 	if(pq->size == 0) {
-		pq->size += 1;
+		pq->size  += 1;
 		aux->next = pq->head;
-		pq->head = aux;
+		pq->head  = aux;
 	}
 	else {
 		pq->size += 1;
-		node *c = pq->head;
-		node *p = NULL;
+		node *c   = pq->head;
+		node *p   = NULL;
 
 		while((c != NULL) && (c->priority < aux->priority)) {
 			p = c;
@@ -65,16 +62,16 @@ void    enqueue(pq *pq, node *tree) {
 		}
 		if(p == NULL) {
 			aux->next = pq->head;
-			pq->head = aux;
+			pq->head  = aux;
 			return;
 		}
-		p->next = aux;
+		p->next   = aux;
 		aux->next = c;
 	}
 }
 
 pq* enqueue_amount(int amount[]) {
-	pq *pq_new = (pq*) malloc(sizeof(pq));
+	pq *pq_new   = (pq*) malloc(sizeof(pq));
 	pq_new->head = NULL;
 	node* new_node;
 
@@ -90,15 +87,15 @@ pq* enqueue_amount(int amount[]) {
 
 node *dequeue(pq *pq) {
 	node *aux = pq->head;
-	pq->head = pq->head->next;
-	pq->size -= 1;
+	pq->head  = pq->head->next;
+	pq->size  -= 1;
 	return aux;
 }
 
 node *create_huff_node(node *left, node *right) {
-	node *huff = (node*) malloc(sizeof(node));
-	huff->left = left;
-	huff->right = right;
+	node *huff   = (node*) malloc(sizeof(node));
+	huff->left   = left;
+	huff->right  = right;
 	huff->charac = '*';
 
 	if(right == NULL) {
@@ -119,9 +116,9 @@ node *create_huff(pq *pq) {
 		return create_huff_node(pq->head, NULL);
 	}
 	while (pq->size > 1) {
-		node *left = dequeue(pq);
+		node *left  = dequeue(pq);
 		node *right = dequeue(pq);
-		huff = create_huff_node(left, right);
+		huff        = create_huff_node(left, right);
 		enqueue(pq, huff);
 	}
 	return pq->head;
@@ -180,7 +177,7 @@ int main() {
 			// 	j++;
 			// }
 			pq *pq_amount = create_pq();
-			pq_amount = enqueue_amount(amount);
+			pq_amount     = enqueue_amount(amount);
 			
 			node *tree = create_huff(pq_amount);
 
@@ -205,4 +202,11 @@ int main() {
 	}
 	
 	return 0;
+}
+///@return novo ponteiro um novo ponteiro para fila de prioridade
+pq *   create_pq() {
+        pq* new_queue   = (pq*) malloc(sizeof(pq));
+        new_queue->head = NULL;
+        new_queue->size = 0;
+        return new_queue;
 }
