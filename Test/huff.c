@@ -6,6 +6,8 @@
 #include <ctype.h>
 #include <string.h>
 
+#define DEBUG 1
+
 typedef struct node node;
 typedef struct pq pq;
 typedef struct hash hash;
@@ -27,6 +29,7 @@ struct pq {
 struct hash {
 	void *matriz[256][256];
 };
+
 
 pq* create_pq() {
 	pq* new_queue = (pq*) malloc(sizeof(pq));
@@ -264,14 +267,21 @@ void print(node *node) {
     printf(")");
   }
 }
-
 void frequency(FILE *file, int amount[]) {
-	unsigned char charac;
+        unsigned char charac;
 
-	while(fscanf(file, "%c", &charac) != EOF) { 
-		amount[charac] += 1;			//Charac é o valor do caracter na tabela ASCII, adicionando a quantidade dela que existe
-	}
-	//amount[10] -= 1;
+        charac = fgetc(file);
+        while(!feof(file)) {
+                amount[charac] += 1;
+                charac = fgetc(file);
+        }
+        fclose(file);
+        /*
+        while(fscanf(file, "%c", &charac) != EOF) {
+                amount[charac] += 1;			//Charac é o valor do caracter na tabela ASCII, adicionando a quantidade dela que existe
+        }
+        //amount[10] -= 1;
+        */
 }
 
 int main() {
@@ -304,8 +314,10 @@ int main() {
 			
 			node *tree = create_huff(pq_amount);
 
-			// print(tree);
-			// printf("\n");
+			if(DEBUG){
+                                print(tree);
+                                printf("\n");
+                        }
 
 			hash *hash = create_hash();
 
@@ -360,6 +372,6 @@ int main() {
 			printf("Invalid option\n");
 		}
 	}
-	
+
 	return 0;
 }
