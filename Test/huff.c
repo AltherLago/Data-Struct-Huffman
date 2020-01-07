@@ -181,17 +181,18 @@ void add_hash(hash *hash, unsigned char item, int total_bits, int sequency[]) {
 
 //PERCORE A ÁRVORE BUSCANDO AS FOLHAS PARA CRIAR A SEQUÊNCIA DE BITS
 void map_bits(hash *hash, node *tree, int i, int for_bits[]) {
-	if(isEmpty(tree)) {
-		return;
-	}
 	if(isLeaf(tree)) {
 		add_hash(hash, tree->charac, i, for_bits);
 		return;
 	}
-	for_bits[i] = '0';					//Vai adicionar o 0 e andar para a esquerda na chamada
-	map_bits(hash, tree->left, i+1, for_bits);
-	for_bits[i] = '1';					//Vai adicionar o 1 e andar para a direita na chamada
-	map_bits(hash, tree->right, i+1, for_bits);
+	if(tree->left != NULL) {
+		for_bits[i] = '0';					//Vai adicionar o 0 e andar para a esquerda na chamada
+		map_bits(hash, tree->left, i+1, for_bits);
+	}
+	if(tree->right != NULL) {
+		for_bits[i] = '1';					//Vai adicionar o 1 e andar para a direita na chamada
+		map_bits(hash, tree->right, i+1, for_bits);
+	}
 }
 
 
@@ -268,19 +269,18 @@ void print(node *node) {
   }
 }
 void frequency(FILE *file, int amount[]) {
-        unsigned char charac; //Charac é o valor do caracter na tabela ASCII,
-                              //adicionando a quantidade dela que existe
-        charac = fgetc(file);
-        while(!feof(file)) {
-                amount[charac] += 1;
-                charac = fgetc(file);
-        }
-        /*
+        unsigned char charac;
+
+        // charac = fgetc(file);
+        // while(!feof(file)) {
+        //         amount[charac] += 1;
+        //         charac = fgetc(file);
+        // }
+        // fclose(file);
+        
         while(fscanf(file, "%c", &charac) != EOF) {
                 amount[charac] += 1;			//Charac é o valor do caracter na tabela ASCII, adicionando a quantidade dela que existe
-        }
-        //amount[10] -= 1;
-        */
+        }        
 }
 
 int main() {
@@ -309,7 +309,7 @@ int main() {
 			frequency(file, amount);
 
 			pq *pq_amount = create_pq();
-			pq_amount     = enqueue_amount(amount);
+			pq_amount = enqueue_amount(amount);
 			
 			node *tree = create_huff(pq_amount);
 
