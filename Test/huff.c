@@ -270,13 +270,11 @@ void print(node *node) {
 void frequency(FILE *file, int amount[]) {
         unsigned char charac; //Charac é o valor do caracter na tabela ASCII,
                               //adicionando a quantidade dela que existe
-
         charac = fgetc(file);
         while(!feof(file)) {
                 amount[charac] += 1;
                 charac = fgetc(file);
         }
-        fclose(file);
         /*
         while(fscanf(file, "%c", &charac) != EOF) {
                 amount[charac] += 1;			//Charac é o valor do caracter na tabela ASCII, adicionando a quantidade dela que existe
