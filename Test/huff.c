@@ -268,7 +268,8 @@ void print(node *node) {
   }
 }
 void frequency(FILE *file, int amount[]) {
-        unsigned char charac;
+        unsigned char charac; //Charac é o valor do caracter na tabela ASCII,
+                              //adicionando a quantidade dela que existe
 
         charac = fgetc(file);
         while(!feof(file)) {
@@ -310,7 +311,7 @@ int main() {
 			frequency(file, amount);
 
 			pq *pq_amount = create_pq();
-			pq_amount = enqueue_amount(amount);
+			pq_amount     = enqueue_amount(amount);
 			
 			node *tree = create_huff(pq_amount);
 
