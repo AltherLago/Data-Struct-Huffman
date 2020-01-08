@@ -22,8 +22,8 @@ struct node {
 };
 
 struct pq {
-	int size;			//Armazena o tamanho da fila de prioridade
-	node *head;			//Guarda o nó da cabeça da fila de prioridade
+	int size;			//Armazena o tamanho da lista de prioridade
+	node *head;			//Guarda o nó da cabeça da lista de prioridade
 };
 
 struct hash {
@@ -39,21 +39,22 @@ pq* create_pq() {
 }
 
 node* create_node() {
-	node* new_node = (node*) malloc(sizeof(node));
+	node* new_node     = (node*) malloc(sizeof(node));
 	new_node->priority = 0;
-	new_node->left = NULL;
-	new_node->right = NULL;
-	new_node->next = NULL ;
+	new_node->left     = NULL;
+	new_node->right    = NULL;
+	new_node->next     = NULL ;
 	return new_node;
 }
 
+//Cria e retorna o nó da "pré" árvore
 node* c_tree(unsigned char charac, int amount, node *left, node *right) {
-	node *tree = (node*) malloc(sizeof(node));
-	tree->charac = charac;
+	node *tree     = (node*) malloc(sizeof(node));
+	tree->charac   = charac;
 	tree->priority = amount;
-	tree->next = NULL;
-	tree->left = left;
-	tree->right = right;
+	tree->next     = NULL;
+	tree->left     = left;
+	tree->right    = right;
 
 	return tree;
 }
@@ -70,43 +71,51 @@ hash *create_hash () {
 }
 
 //CRIA A FILA EM ORDEM CRESCENTE
-void enqueue(pq *pq, node *tree) {
+void enqueue(pq *pq, node *tree) {//---Sugiro mudar os nomes das variáveis...(p = previus e c = current)
 	node *aux = tree;
 
-	if(pq->size == 0) {
+	if(pq->size == 0) { //Primeiro elemento da fila vazia
 		pq->size += 1;
 		aux->next = pq->head;
-		pq->head = aux;
+		pq->head  = aux;
 	}
 	else {
 		pq->size += 1;
-		node *c = pq->head;
-		node *p = NULL;
+		node *c   = pq->head;
+		node *p   = NULL;
 
-		while((c != NULL) && (c->priority < aux->priority)) { //Depois de feita a soma dos dois menores, se forem maior do que o next da fila aqui será feita a troca de posição
+		while((c != NULL)
+		      && (c->priority < aux->priority)){
+                        //Depois de feita a soma dos
+                        // dois menores, se forem maior
+                        // do que o next da fila aqui
+                        // será feita a troca de posição
 			p = c;
 			c = c->next;
 		}
 		if(p == NULL) {
 			aux->next = pq->head;
-			pq->head = aux;
+			pq->head  = aux;
 			return;
 		}
-		p->next = aux;
+		p->next   = aux;
 		aux->next = c;
 	}
 }
 
 //PROCURA OS CARACTERES E SUAS FREQUENCIAS E MANDA PARA COLOCA-LOS EM FILA
 pq* enqueue_amount(int amount[]) {
-	pq *pq_new = (pq*) malloc(sizeof(pq));
+	pq *pq_new   = (pq*) malloc(sizeof(pq));
 	pq_new->head = NULL;
 	node* new_node;
 
+        //Quando achar algo diferente de 0, i será o caracter e amount[i] será sua frequência
+        //Já cria em formato de árvore com os ponteiros para esquerda e direita
+        //Coloca na fila
 	for(int i = 0; i < 256; i++) {
-		if(amount[i]) {						//Quando achar algo diferente de 0, i será o caracter e amount[i] será sua frequência
-			new_node = c_tree(i, amount[i], NULL, NULL);	//Já cria em formato de árvore com os ponteiros para esquerda e direita
-			enqueue(pq_new, new_node);			//Coloca na fila
+		if(amount[i]) {
+			new_node = c_tree(i, amount[i], NULL, NULL);
+			enqueue(pq_new, new_node);
 		}
 	}
 
@@ -116,19 +125,19 @@ pq* enqueue_amount(int amount[]) {
 //REMOVE O PRIMEIRO ELEMENTO DA FILA
 node *dequeue(pq *pq) {
 	node *aux = pq->head;
-	pq->head = pq->head->next;
+	pq->head  = pq->head->next;
 	pq->size -= 1;
 	return aux;
 }
 
 //CONSTRÓI A ÁRVORE COM A SOMA DOS CARACTERES DE MENOR FREQUÊNCIA E OS COLOCA COMO FOLHAS
 node *create_huff_node(node *left, node *right) {
-	node *huff = (node*) malloc(sizeof(node));
-	huff->priority = left->priority + right->priority;	//Soma dos dois de menor frequência
-	huff->left = left;
-	huff->right = right;
-	huff->charac = '*';
-	huff->next = NULL;
+	node *huff     = (node*) malloc(sizeof(node));
+	huff->priority = left->priority + right->priority;//Soma dos dois de menor frequência
+	huff->left     = left;
+	huff->right    = right;
+	huff->charac   = '*';
+	huff->next     = NULL;
 
 	return huff;
 }
@@ -137,12 +146,12 @@ node *create_huff_node(node *left, node *right) {
 node *create_huff(pq *pq) {
 	node *huff = create_node();
 	while (pq->size > 1) {
-		node *left = dequeue(pq);		//Pega o primeiro elemento da fila que é de menor frequência
-		node *right = dequeue(pq);		//				||
-		huff = create_huff_node(left, right);	//Manda os dois menores para formar um novo nó pai e eles serão folhas
-		enqueue(pq, huff);			//Coloca em fila a cada parte da árvore até que sobre somente a raiz
-	}
-	return pq->head;
+		node *left  = dequeue(pq);		    //Pega o primeiro elemento da fila que é de menor frequência
+		node *right = dequeue(pq);		    //				||
+		huff        = create_huff_node(left, right);//Manda os dois menores para formar um novo nó pai e eles
+		enqueue(pq, huff);			    // serão folhas
+	}                                                   //Coloca em fila a cada parte da árvore até que sobre
+	return pq->head;                                    // somente a raiz
 }
 
 //VERIFICA SE A ÁRVORE ESTÁ VAZIA
@@ -174,8 +183,8 @@ void size_tree(node *tree, long long int *size) {
 void add_hash(hash *hash, unsigned char item, int total_bits, int sequency[]) {
 	int i;
 	for(i = 0; i < total_bits; i++) {
-		hash->matriz[item][i] = sequency[i];	//Preenche em linha a sequência da letra na posição dela na tabela ASCII
-	}
+		hash->matriz[item][i] = sequency[i];	//Preenche em linha a sequência da letra
+	}                                               // na posição dela na tabela ASCII
 	hash->matriz[item][i] = '\0';
 }
 
@@ -186,11 +195,11 @@ void map_bits(hash *hash, node *tree, int i, int for_bits[]) {
 		return;
 	}
 	if(tree->left != NULL) {
-		for_bits[i] = '0';					//Vai adicionar o 0 e andar para a esquerda na chamada
+		for_bits[i] = '0';				//Vai adicionar o 0 e andar para a esquerda na chamada
 		map_bits(hash, tree->left, i+1, for_bits);
 	}
 	if(tree->right != NULL) {
-		for_bits[i] = '1';					//Vai adicionar o 1 e andar para a direita na chamada
+		for_bits[i] = '1';				//Vai adicionar o 1 e andar para a direita na chamada
 		map_bits(hash, tree->right, i+1, for_bits);
 	}
 }
@@ -276,11 +285,10 @@ void frequency(FILE *file, int amount[]) {
         //         amount[charac] += 1;
         //         charac = fgetc(file);
         // }
-        // fclose(file);
         
-        while(fscanf(file, "%c", &charac) != EOF) {
-                amount[charac] += 1;			//Charac é o valor do caracter na tabela ASCII, adicionando a quantidade dela que existe
-        }        
+        while(fscanf(file, "%c", &charac) != EOF) {// Charac é o valor do caracter na tabela ASCII,
+                amount[charac] += 1;                      // adicionando a quantidade dela que existe
+        }
 }
 
 int main() {
@@ -309,9 +317,9 @@ int main() {
 			frequency(file, amount);
 
 			pq *pq_amount = create_pq();
-			pq_amount = enqueue_amount(amount);
+			pq_amount     = enqueue_amount(amount);
 			
-			node *tree = create_huff(pq_amount);
+			node *tree    = create_huff(pq_amount);
 
 			if(DEBUG){
                                 print(tree);
@@ -324,15 +332,32 @@ int main() {
 			memset(for_bits, 0, 256);
 			map_bits(hash, tree, 0, for_bits);
 
-			// for(int i = 0; i < 256; i++) {
-			// 	for(int j = 0; j < 256; j++) {
-			// 		if(hash->matriz[i][j] != 35) {
-			// 			printf("%d %d %d\n", hash->matriz[i][j], i, j);
-			// 		}
-			// 	}
-			// }
+			if(DEBUG){
+			        //printf("%d %d %c %c\n", '\0', '#', 48, 49); //test da table ascii
+
+                                for(int i = 0; i < 256; i++) {
+                                        for(int j = 0; j < 256; j++) {
+                                                if(hash->matriz[i][0] == 35){
+                                                        continue;
+                                                }
+                                                if(hash->matriz[i][j] != 35
+                                                   && hash->matriz[i][j] != 0) {
+                                                        if(j == 0){
+                                                                printf("i:%d = %c ", i, hash->matriz[i][j]);
+                                                        } else{
+                                                                printf("%c ", hash->matriz[i][j]);
+                                                        }
+
+                                                }
+                                                if(hash->matriz[i][j] == 0){
+                                                        puts("");
+                                                        continue;
+                                                }
+                                        }
+                                }
+			}
 //------------------------------------------------------
-			long long int size = 0;
+			long long int size  = 0;
 			unsigned char trash = 0;
 
 			size_tree(tree, &size);
