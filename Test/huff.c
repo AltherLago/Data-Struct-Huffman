@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 typedef struct node node;
 typedef struct pq pq;
@@ -39,22 +39,22 @@ pq* create_pq() {
 }
 
 node* create_node() {
-	node* new_node     = (node*) malloc(sizeof(node));
+	node* new_node = (node*) malloc(sizeof(node));
 	new_node->priority = 0;
-	new_node->left     = NULL;
-	new_node->right    = NULL;
-	new_node->next     = NULL ;
+	new_node->left = NULL;
+	new_node->right = NULL;
+	new_node->next = NULL ;
 	return new_node;
 }
 
 //Cria e retorna o nó da "pré" árvore
 node* c_tree(unsigned char charac, int amount, node *left, node *right) {
-	node *tree     = (node*) malloc(sizeof(node));
-	tree->charac   = charac;
+	node *tree = (node*) malloc(sizeof(node));
+	tree->charac = charac;
 	tree->priority = amount;
-	tree->next     = NULL;
-	tree->left     = left;
-	tree->right    = right;
+	tree->next = NULL;
+	tree->left = left;
+	tree->right = right;
 
 	return tree;
 }
@@ -71,41 +71,40 @@ hash *create_hash () {
 }
 
 //CRIA A FILA EM ORDEM CRESCENTE
-void enqueue(pq *pq, node *tree) {//---Sugiro mudar os nomes das variáveis...(p = previus e c = current)
+void enqueue(pq *pq, node *tree) {
 	node *aux = tree;
 
 	if(pq->size == 0) { //Primeiro elemento da fila vazia
 		pq->size += 1;
 		aux->next = pq->head;
-		pq->head  = aux;
+		pq->head = aux;
 	}
 	else {
 		pq->size += 1;
-		node *c   = pq->head;
-		node *p   = NULL;
+		node *current = pq->head;
+		node *previous= NULL;
 
-		while((c != NULL)
-		      && (c->priority < aux->priority)){
-                        //Depois de feita a soma dos
+		while((current != NULL) && (current->priority < aux->priority)){
+                        // Depois de feita a soma dos
                         // dois menores, se forem maior
                         // do que o next da fila aqui
                         // será feita a troca de posição
-			p = c;
-			c = c->next;
+			previous = current;
+			current = current->next;
 		}
-		if(p == NULL) {
+		if(previous == NULL) {
 			aux->next = pq->head;
-			pq->head  = aux;
+			pq->head = aux;
 			return;
 		}
-		p->next   = aux;
-		aux->next = c;
+		previous->next = aux;
+		aux->next = current;
 	}
 }
 
 //PROCURA OS CARACTERES E SUAS FREQUENCIAS E MANDA PARA COLOCA-LOS EM FILA
 pq* enqueue_amount(int amount[]) {
-	pq *pq_new   = (pq*) malloc(sizeof(pq));
+	pq *pq_new = (pq*) malloc(sizeof(pq));
 	pq_new->head = NULL;
 	node* new_node;
 
@@ -125,19 +124,19 @@ pq* enqueue_amount(int amount[]) {
 //REMOVE O PRIMEIRO ELEMENTO DA FILA
 node *dequeue(pq *pq) {
 	node *aux = pq->head;
-	pq->head  = pq->head->next;
+	pq->head = pq->head->next;
 	pq->size -= 1;
 	return aux;
 }
 
 //CONSTRÓI A ÁRVORE COM A SOMA DOS CARACTERES DE MENOR FREQUÊNCIA E OS COLOCA COMO FOLHAS
 node *create_huff_node(node *left, node *right) {
-	node *huff     = (node*) malloc(sizeof(node));
+	node *huff = (node*) malloc(sizeof(node));
 	huff->priority = left->priority + right->priority;//Soma dos dois de menor frequência
-	huff->left     = left;
-	huff->right    = right;
-	huff->charac   = '*';
-	huff->next     = NULL;
+	huff->left = left;
+	huff->right = right;
+	huff->charac = '*';
+	huff->next = NULL;
 
 	return huff;
 }
@@ -146,9 +145,9 @@ node *create_huff_node(node *left, node *right) {
 node *create_huff(pq *pq) {
 	node *huff = create_node();
 	while (pq->size > 1) {
-		node *left  = dequeue(pq);		    //Pega o primeiro elemento da fila que é de menor frequência
+		node *left = dequeue(pq);		    //Pega o primeiro elemento da fila que é de menor frequência
 		node *right = dequeue(pq);		    //				||
-		huff        = create_huff_node(left, right);//Manda os dois menores para formar um novo nó pai e eles
+		huff = create_huff_node(left, right);//Manda os dois menores para formar um novo nó pai e eles
 		enqueue(pq, huff);			    // serão folhas
 	}                                                   //Coloca em fila a cada parte da árvore até que sobre
 	return pq->head;                                    // somente a raiz
@@ -292,39 +291,38 @@ void frequency(FILE *file, int amount[]) {
 }
 
 int main() {
-	int option, amount[256] = {0};
-	char name[256];
-
 	while(1) {
 		printf("1 - Compress\n");
 		printf("2 - Descompress\n");
 		printf("3 - Quit\n");
 		
+		int option, amount[256] = {0};
+		char name[256];
 		scanf("%d", &option);
 
 		if(option == 1) {
 			printf("FILE NAME: ");
 			scanf(" %[^\n]", name);
-			printf("\n");
+			printf("\n\n");
 
 			FILE *file = fopen(name, "rb");
 
 			if(file == NULL) {
-				printf("Invalid file\n");
+				printf("Invalid file.\n");
 				break;
 			}
 
 			frequency(file, amount);
 
 			pq *pq_amount = create_pq();
-			pq_amount     = enqueue_amount(amount);
+			pq_amount = enqueue_amount(amount);
 			
-			node *tree    = create_huff(pq_amount);
+			node *tree = create_huff(pq_amount);
 
-			if(DEBUG){
-                                print(tree);
-                                printf("\n");
-                        }
+			if(DEBUG) {
+				print(tree);
+				printf("\n");
+			}
 
 			hash *hash = create_hash();
 
@@ -332,29 +330,27 @@ int main() {
 			memset(for_bits, 0, 256);
 			map_bits(hash, tree, 0, for_bits);
 
-			if(DEBUG){
-			        //printf("%d %d %c %c\n", '\0', '#', 48, 49); //test da table ascii
-
-                                for(int i = 0; i < 256; i++) {
-                                        for(int j = 0; j < 256; j++) {
-                                                if(hash->matriz[i][0] == 35){
-                                                        continue;
-                                                }
-                                                if(hash->matriz[i][j] != 35
-                                                   && hash->matriz[i][j] != 0) {
-                                                        if(j == 0){
-                                                                printf("i:%d = %c ", i, hash->matriz[i][j]);
-                                                        } else{
-                                                                printf("%c ", hash->matriz[i][j]);
-                                                        }
-
-                                                }
-                                                if(hash->matriz[i][j] == 0){
-                                                        puts("");
-                                                        continue;
-                                                }
-                                        }
-                                }
+			if(DEBUG) {
+				//printf("%d %d %c %c\n", '\0', '#', 48, 49); //test da table ascii
+				for(int i = 0; i < 256; i++) {
+					for(int j = 0; j < 256; j++) {
+						if(hash->matriz[i][0] == 35){
+							continue;
+						}
+						if(hash->matriz[i][j] != 35 && hash->matriz[i][j] != 0) {
+							if(j == 0){
+								printf("i:%d = %c ", i, hash->matriz[i][j]);
+							}
+							else{
+								printf("%c ", hash->matriz[i][j]);
+							}
+						}
+						if(hash->matriz[i][j] == 0){
+							puts("");
+							continue;
+						}
+					}
+				}
 			}
 //------------------------------------------------------
 			long long int size  = 0;
@@ -383,13 +379,24 @@ int main() {
 			break;
 		}
 		else if(option == 2) {
+			char format[20], input_file[256];
+			printf("Input file name: (Ex.: file.huff\n\n");
+			scanf("%s", input_file);
+			printf("Output format: (Ex.: png)\n\n");
+			scanf("%s", format);
 
+			FILE *in_file = fopen(input_file, "rb");
+
+			if(in_file == NULL) {
+				printf("Invalid file.\n");
+				break;
+			}
+
+			
 
 			break;
 		}
 		else if(option == 3) {
-
-
 			break;
 		}
 		else {
