@@ -372,7 +372,6 @@ int main() {
 			FILE *compressed = fopen("file.huff", "wb");
 
 			fprintf(compressed, "%c%c", bytes[0], bytes[1]);
-			printf("%d %d\n", bytes[0], bytes[1]);
 			add_tree(tree, compressed);
 			rewind(file);
 			write_file(file, hash, compressed, size);
