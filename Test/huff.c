@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#define DEBUG 0
+#define DEBUG 1
 
 typedef struct node node;
 typedef struct pq pq;
@@ -163,7 +163,7 @@ int isLeaf(node *tree) {
 	return ((tree->left == NULL) && (tree->right == NULL));
 }
 
-//SALVA O TAMANHO DA ÁRVORE EM PRÉ-ORDEM
+//SALVA O TAMANHO DA ÁRVORE PERCORRENDO EM PRÉ-ORDEM
 void size_tree(node *tree, long long int *size) {
 	if(isEmpty(tree)) {
 		return;
@@ -208,23 +208,23 @@ void map_bits(hash *hash, node *tree, int i, int for_bits[]) {
 void get_trash(node *tree, unsigned char *trash, int height) {
 	if(!isEmpty(tree)) {
 		if(isLeaf(tree)) {
-			*trash += tree->priority * height;
-			height += 1;
+			*trash += tree->priority * height;//Tamanho do lixo na árvore
+			height += 1;				//Tamanho da árvore
 		}
 		get_trash(tree->left, trash, height+1);
 		get_trash(tree->right, trash, height+1);
 	}
 }
 
-//ESCREVE A ÁRVORE EM PRÉ-ORDEM NO ARQUIVO
-void put_tree(node *tree, FILE *file) {
+//ESCREVE A ÁRVORE EM PRÉ-ORDEM NO ARQUIVO CARACTER POR CARACTER
+void add_tree(node *tree, FILE *file) {
 	if(!isEmpty(tree)) {
 		if((tree->charac == '*' || tree->charac == '\\') && tree->left == NULL && tree->right == NULL) {
 			fputc('\\', file);
 		}
 		fputc(tree->charac, file);
-		put_tree(tree->left, file);
-		put_tree(tree->right, file);
+		add_tree(tree->left, file);
+		add_tree(tree->right, file);
 	}
 }
 
@@ -234,7 +234,7 @@ unsigned char set_bit(unsigned char byte, int i) {
 }
 
 
-//
+//RECEBE O ARQUIVO, A HASH COM OS BITS DE CADA CARACTER, O ARQUIVO A SER COMPACTADO E O 
 void write_file(FILE *file, hash *hash, FILE *compressed, long long int sizeTree) {
 	unsigned char charac, byte_file = 0;
 	int i, j = 0, size = 0, bits = 0, byte = 7;
@@ -352,14 +352,14 @@ int main() {
 					}
 				}
 			}
-//------------------------------------------------------
 			long long int size  = 0;
 			unsigned char trash = 0;
 
 			size_tree(tree, &size);
 
+//------------------------------------------------------
 			int bytes[2] = {0};
-			get_trash(tree, &trash, 0);
+			get_trash(tree, &trash, 0);//trash é o tamanho total de bits do arquivo
 			trash = 8 - (trash % 8);
 
 			if(trash == 8) {
@@ -368,15 +368,15 @@ int main() {
 			bytes[0] = trash << 5;
 			bytes[0] |= size >> 8;
 			bytes[1] = size;
+
 			FILE *compressed = fopen("file.huff", "wb");
 
 			fprintf(compressed, "%c%c", bytes[0], bytes[1]);
-			put_tree(tree, compressed);
+			printf("%d %d\n", bytes[0], bytes[1]);
+			add_tree(tree, compressed);
 			rewind(file);
 			write_file(file, hash, compressed, size);
 			fclose(file);
-
-			break;
 		}
 		else if(option == 2) {
 			char format[20], input_file[256];
@@ -392,7 +392,7 @@ int main() {
 				break;
 			}
 
-			
+
 
 			break;
 		}
