@@ -1,4 +1,4 @@
-//gcc -g huff.c -o huff -w
+//gcc -g main.c pq.c huff_tree.c hash.c compress.c -o huff -w
 #include "pq.h"
 #include "huff_tree.h"
 #include "hash.h"
