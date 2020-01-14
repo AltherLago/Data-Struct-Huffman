@@ -84,5 +84,6 @@ void print_pq(pq *pq) {
 
 	while(node != NULL) {
 		printf("%d -> %d\n", node->charac, node->priority);
+		node = node->next;
 	}
 }
