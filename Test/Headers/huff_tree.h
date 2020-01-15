@@ -21,7 +21,6 @@ node* create_huff_node(node *left, node *right);
 node* create_huff(pq *pq);
 int isEmpty(node *tree);
 int isLeaf(node *tree);
-void size_tree(node *tree, long long int *size);
 void print_huff_tree(node *node);
 
 #endif
