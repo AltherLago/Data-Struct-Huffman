@@ -39,7 +39,7 @@ int main() {
 			hash *hash = create_hash();
 
 			if(DEBUG) {
-				print(tree);
+				print_huff_tree(tree);
 				printf("\n");
 				print_hash(hash);
 				printf("\n");
