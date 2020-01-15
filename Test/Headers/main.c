@@ -1,4 +1,4 @@
-//gcc -g main.c pq.c huff_tree.c hash.c compress.c -o huff -w
+//gcc -g huff.c -o huff -w
 #include "pq.h"
 #include "huff_tree.h"
 #include "hash.h"
@@ -32,6 +32,7 @@ int main() {
 
 			pq *pq_amount = create_pq();
 			pq_amount = enqueue_amount(amount);
+			print_pq(pq_amount);
 			
 			node *tree = create_huff(pq_amount);
 
@@ -48,30 +49,6 @@ int main() {
 			memset(for_bits, 0, 256);
 			map_bits(hash, tree, 0, for_bits);
 
-			long long int size  = 0;
-			unsigned char trash = 0;
-
-			size_tree(tree, &size);
-
-//------------------------------------------------------
-			int bytes[2] = {0};
-			get_trash(tree, &trash, 0);//trash é o tamanho total de bits do arquivo
-			trash = 8 - (trash % 8);
-
-			if(trash == 8) {
-				trash = 0;
-			}
-			bytes[0] = trash << 5;
-			bytes[0] |= size >> 8;
-			bytes[1] = size;
-
-			FILE *compressed = fopen("file.huff", "wb");
-
-			fprintf(compressed, "%c%c", bytes[0], bytes[1]);
-			add_tree(tree, compressed);
-			rewind(file);
-			write_file(file, hash, compressed, size);
-			fclose(file);
 
 			break;
 		}
