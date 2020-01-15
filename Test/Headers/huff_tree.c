@@ -43,21 +43,6 @@ int isLeaf(node *tree) {
 	return ((tree->left == NULL) && (tree->right == NULL));
 }
 
-//SALVA O TAMANHO DA ÁRVORE PERCORRENDO EM PRÉ-ORDEM
-void size_tree(node *tree, long long int *size) {
-	if(isEmpty(tree)) {
-		return;
-	}
-	if(isLeaf(tree)) {
-		if(tree->charac == '*' || tree->charac == '\\') {
-			*size += 1;
-		}
-	}
-	*size += 1;
-	size_tree(tree->left, size);
-	size_tree(tree->right, size);
-}
-
 void print_huff_tree(node *node) {
 	if(isEmpty(node)) {
 		printf("()");
