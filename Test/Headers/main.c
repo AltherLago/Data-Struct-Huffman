@@ -4,7 +4,7 @@
 #include "hash.h"
 #include "compress.h"
 
-#define DEBUG 0
+#define DEBUG 1
 
 int main() {
 	while(1) {
@@ -31,26 +31,34 @@ int main() {
 			frequency(file, amount);
 
 			pq *pq_amount = create_pq();
-			pq_amount = enqueue_amount(amount);
-			print_pq(pq_amount);
-			
-			node *tree = create_huff(pq_amount);
+			pq_amount     = enqueue_amount(amount);
 
-			hash *hash = create_hash();
-
-			if(DEBUG) {
-				print_huff_tree(tree);
-				printf("\n");
-				print_hash(hash);
-				printf("\n");
+			if(DEBUG){
+                                print_pq(pq_amount);
+                                printf("\n");
 			}
 
-			int for_bits[256];
-			memset(for_bits, 0, 256);
-			map_bits(hash, tree, 0, for_bits);
+                        node *tree = create_huff(pq_amount);
 
+                        hash *hash = create_hash();
 
-			break;
+                        int for_bits[256];
+                        memset(for_bits, 0, 256);
+                        map_bits(hash, tree, 0, for_bits);
+
+                        if(DEBUG) {
+                                print_huff_tree(tree);
+                                printf("\n\n");
+                                print_hash(hash);
+                                printf("\n");
+                        }
+
+                        //TODO
+                        // 1 - Preencher o byte com o caracter corresponte
+                        // 2 - Completando o byte imprime em um novo arquivo
+                        // 3 - pegar o tamanho do lixo e fazer o cabeçalho
+
+                        break;
 		}
 		else if(option == 2) {
 			char format[20], input_file[256];
