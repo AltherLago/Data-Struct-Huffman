@@ -1,9 +1,14 @@
 #ifndef compress
 #define compress
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "huff_tree.h"
 #include "hash.h"
 
 void frequency(FILE *file, int amount[]);
+
+void print_new_file(FILE *file, hash *hash);
 
 #endif

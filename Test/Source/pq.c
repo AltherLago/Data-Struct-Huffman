@@ -1,5 +1,5 @@
-#include "pq.h"
-#include "huff_tree.h"
+#include "../Headers/pq.h"
+#include "../Headers/huff_tree.h"
 
 pq* create_pq() {
 	pq* new_queue = (pq*) malloc(sizeof(pq));

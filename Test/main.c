@@ -1,12 +1,15 @@
 //gcc -g main.c pq.c huff_tree.c hash.c compress.c -o huff -w
-#include "pq.h"
-#include "huff_tree.h"
-#include "hash.h"
-#include "compress.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include "Headers/pq.h"
+#include "Headers/huff_tree.h"
+#include "Headers/hash.h"
+#include "Headers/compress.h"
 
 #define DEBUG 1
 
 int main() {
+        printf("\n\n\nENTREI\n\n\n");
 	while(1) {
 		printf("1 - Compress\n");
 		printf("2 - Descompress\n");
@@ -58,6 +61,8 @@ int main() {
                         // 2 - Completando o byte imprime em um novo arquivo
                         // 3 - pegar o tamanho do lixo e fazer o cabeçalho
 
+                        print_new_file(file, hash);
+
                         break;
 		}
 		else if(option == 2) {
@@ -88,3 +93,49 @@ int main() {
 
 	return 0;
 }
+/*
+ * main: main.c compress.o hash.o huff_tree.o pq.o
+    gcc -o main main.c
+
+compress.o: compress.c
+    gcc -c compress.c -o compress.o
+
+hash.o: hash.c
+    gcc -c hash.c -o hash.o
+
+huff_tree: huff_tree.c
+    gcc -c huff_tree.c -o huff_tree.o
+
+pq: pq.c
+    gcc -c huff_tree.c -o huff_tree.o
+
+HEADERS = compress.h hash.h huff_tree.h pq.h
+OBJECTS = main.o compress.o hash.o huff_tree.o pq.o
+
+default: main
+
+%.o: %.c $(HEADERS)
+    gcc -c $< -o $@
+
+program: $(OBJECTS)
+    gcc $(OBJECTS) -o $@
+
+clean:
+    -rm -f $(OBJECTS)
+    -rm -f main
+
+    HEADERS = Headers/compress.h Headers/hash.h Headers/huff_tree.h Headers/pq.h
+OBJECTS = compress.o hash.o huff_tree.o pq.o
+
+default: main
+
+%.o: %.c $(HEADERS)
+    gcc -c $< -o $@
+
+main: $(OBJECTS)
+    gcc $(OBJECTS) -o $@
+
+clean:
+    -rm -f $(OBJECTS)
+    -rm -f main
+ */

@@ -1,4 +1,4 @@
-#include "hash.h"
+#include "../Headers/hash.h"
 
 hash *create_hash () {
 	hash *new_hash = (hash*) malloc(sizeof(hash));

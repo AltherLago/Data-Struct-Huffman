@@ -1,6 +1,9 @@
 #ifndef hash_table
 #define hash_table
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "huff_tree.h"
 
 typedef struct hash hash;
@@ -10,8 +13,11 @@ struct hash {
 };
 
 hash *create_hash ();
+
 void add_hash(hash *hash, unsigned char item, int total_bits, int sequency[]);
+
 void map_bits(hash *hash, node *tree, int i, int for_bits[]);
+
 void print_hash(hash *hash);
 
 #endif

@@ -1,4 +1,4 @@
-#include "huff_tree.h"
+#include "../Headers/huff_tree.h"
 
 node* create_node() {
 	node* new_node     = (node*) malloc(sizeof(node));
