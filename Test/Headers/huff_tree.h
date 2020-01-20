@@ -17,10 +17,15 @@ struct node {
 };
 
 node* create_node();
+
 node* create_huff_node(node *left, node *right);
+
 node* create_huff(pq *pq);
+
 int isEmpty(node *tree);
+
 int isLeaf(node *tree);
+
 void print_huff_tree(node *node);
 
 #endif

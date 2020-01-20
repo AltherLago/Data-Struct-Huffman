@@ -50,6 +50,7 @@ int main() {
                         map_bits(hash, tree, 0, for_bits);
 
                         if(DEBUG) {
+                                puts("");
                                 print_huff_tree(tree);
                                 printf("\n\n");
                                 print_hash(hash);

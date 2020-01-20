@@ -1,4 +1,5 @@
 #include "../Headers/hash.h"
+#define DEBUG 1
 
 hash *create_hash () {
 	hash *new_hash = (hash*) malloc(sizeof(hash));
@@ -16,14 +17,18 @@ void add_hash(hash *hash, unsigned char item, int total_bits, int sequency[]) {
 	int i;
 	for(i = 0; i < total_bits; i++) {
 		hash->matriz[item][i] = sequency[i];	//Preenche em linha a sequência da letra
-	}                                               // na posição dela na tabela ASCII
+	}                                               //na posição dela na tabela ASCII
 	hash->matriz[item][i] = '\0';
 }
 
-//PERCORE A ÁRVORE BUSCANDO AS FOLHAS PARA CRIAR A SEQUÊNCIA DE BITS
+//PERCORRE A ÁRVORE BUSCANDO AS FOLHAS PARA CRIAR A SEQUÊNCIA DE BITS
 void map_bits(hash *hash, node *tree, int i, int for_bits[]) {
 	if(isLeaf(tree)) {
 		add_hash(hash, tree->charac, i, for_bits);
+
+		if(DEBUG){
+		        printf("C: %c Total Bits: %d\n", tree->charac, i);
+		}
 		return;
 	}
 	if(tree->left != NULL) {
