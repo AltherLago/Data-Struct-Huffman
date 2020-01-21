@@ -13,12 +13,38 @@ void print_new_file(FILE *file, hash *hash){
         rewind(file); // reler o arquivo do início
         FILE *new_file = fopen("compress.txt", "wb");
         unsigned char charac;
-        unsigned short *byte;
+        unsigned char byte = 0;
+        int free           = 8;
+        int fill           = 0;
+
 
         while (fscanf(file, "%c", &charac) != EOF){
-                int i;
-                for (i = 0; i < 7 ; ++i) {
-                        //fill_bit(byte, hash); //Seria uma função para preencher o byte
+                fill     = (int) (int *) (hash->matriz[charac][0] - '0');
+                int i    = 1;
+
+                while(fill > 0){
+                        if(free == 0){
+                                fputc(byte, new_file);
+                                free = 8;
+                                byte = 0;
+                        }
+                        if(hash->matriz[charac][i] == (unsigned char*) '0'){
+                                byte <<= 1;
+                                free--;
+                        } else if (hash->matriz[charac][i] == (unsigned char*) '1'){
+                                byte <<= 1;
+                                byte++;
+                                free--;
+                        }else{
+                                break;
+                        }
+
+                        if(DEBUG){
+                                printf("charac: %c i: %d byte: %d fill: %d free: %d\n", charac, i, byte, fill, free);
+                        }
+
+                        i++;
+                        fill--;
                 }
         }
         //inputSenter
