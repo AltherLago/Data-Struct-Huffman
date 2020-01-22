@@ -1,6 +1,7 @@
 #include "../Headers/hash.h"
 #define DEBUG 1
 
+//CRIAR A HASH COLOANDO # EM TODOS OS ESPAÇOS
 hash *create_hash () {
 	hash *new_hash = (hash*) malloc(sizeof(hash));
 
@@ -16,7 +17,7 @@ hash *create_hash () {
 void add_hash(hash *hash, unsigned char item, int total_bits, int sequency[]) {
 	int i;
 	for(i = 0; i < total_bits + 1; i++) {
-		hash->matriz[item][i + 1] = sequency[i];	//Preenche em linha a sequência da letra
+		hash->matriz[item][i + 1] = sequency[i];//Preenche em linha a sequência da letra
 	}                                               //na posição dela na tabela ASCII
 	hash->matriz[item][i] = '\0';
 }
@@ -42,6 +43,7 @@ void map_bits(hash *hash, node *tree, int i, int for_bits[]) {
 	}
 }
 
+//IMPRIME O TAMANHO DA HASH E O RESPECTIVO CAMINHO DO CARACTER
 void print_hash(hash *hash) {
 	//printf("%d %d %c %c\n", '\0', '#', 48, 49); //test da table ascii
 	for(int i = 0; i < 256; i++) {

@@ -58,20 +58,26 @@ int main() {
                         }
 
                         //TODO
-                        // 1 - Calcular o tamanho da árvore (lembrem-se do * -> \* e \ -> \\)
                         // 2 - imprimir o trash e a árvore em pré-ordem nos 13 bits restantes
                                 //shift bit do trash
                                 //contar quantos zeros possuem entre o trash tamanho da tree
                                 //shift bit do tamanho da arvore
+                        //                        1110 0000 0000 0101 **\*\\a
+                        //                         *
+                        //                        *  a
+                        //                       c b
+
 
                         unsigned short trash = 0;
-
                         find_trash(tree, hash, &trash);
+                        trash                = 8 - (trash % 8);
 
-                        trash = 8 - (trash % 8);
+                        unsigned short size = 0;
+                        size_tree(tree, &size);
 
                         if(DEBUG){
                                 printf("trash: %d\n\n", trash);
+                                printf("size_tree: %d\n\n", size);
                         }
 
                         print_new_file(file, hash);
