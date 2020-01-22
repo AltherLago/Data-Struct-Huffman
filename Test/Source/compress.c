@@ -11,7 +11,7 @@ void frequency(FILE *file, int amount[]) {
 
 void print_new_file(FILE *file, hash *hash){
         rewind(file); // reler o arquivo do início
-        FILE *new_file = fopen("compress.txt", "wb");
+        FILE *new_file = fopen("compress.huff", "wb");
         unsigned char charac;
         unsigned char byte = 0;
         int free           = 8;
@@ -19,7 +19,7 @@ void print_new_file(FILE *file, hash *hash){
 
 
         while (fscanf(file, "%c", &charac) != EOF){
-                fill     = (int) (int *) (hash->matriz[charac][0] - '0');
+                fill     = (int) (int*) (hash->matriz[charac][0] - '0');
                 int i    = 1;
 
                 while(fill > 0){
@@ -48,6 +48,15 @@ void print_new_file(FILE *file, hash *hash){
                 }
         }
         //inputSenter
-        puts("Saio");
+        fputc(byte, new_file); //imprimir último byte compresso
 }
 
+void find_trash(node *tree, hash *hash, unsigned short *size_trash){
+        if(isLeaf(tree)){
+                *size_trash += ( (int) (int*) hash->matriz[tree->charac][0] - '0' ) * tree->priority;
+        }
+        else if (tree->charac == '*'){
+                find_trash(tree->left, hash, size_trash);
+                find_trash(tree->right, hash, size_trash);
+        }
+}

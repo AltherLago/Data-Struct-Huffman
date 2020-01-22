@@ -45,7 +45,7 @@ int main() {
 
                         hash *hash = create_hash();
 
-                        int for_bits[256];
+                        int for_bits[256]; // é no máximo 9
                         memset(for_bits, 0, 256);
                         map_bits(hash, tree, 0, for_bits);
 
@@ -58,9 +58,21 @@ int main() {
                         }
 
                         //TODO
-                        // 1 - Preencher o byte com o caracter corresponte
-                        // 2 - Completando o byte imprime em um novo arquivo
-                        // 3 - pegar o tamanho do lixo e fazer o cabeçalho
+                        // 1 - Calcular o tamanho da árvore (lembrem-se do * -> \* e \ -> \\)
+                        // 2 - imprimir o trash e a árvore em pré-ordem nos 13 bits restantes
+                                //shift bit do trash
+                                //contar quantos zeros possuem entre o trash tamanho da tree
+                                //shift bit do tamanho da arvore
+
+                        unsigned short trash = 0;
+
+                        find_trash(tree, hash, &trash);
+
+                        trash = 8 - (trash % 8);
+
+                        if(DEBUG){
+                                printf("trash: %d\n\n", trash);
+                        }
 
                         print_new_file(file, hash);
 
