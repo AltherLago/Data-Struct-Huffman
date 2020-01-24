@@ -6,14 +6,18 @@
 void frequency(FILE *file, int amount[]) {
         unsigned char charac;        
         while(fscanf(file, "%c", &charac) != EOF) {// Charac é o valor do caracter na tabela ASCII,
+
+                if(charac == NULL){                       //concertar possíveis bugs com NULL
+                        amount[0] += 1;
+                        continue;
+                }
                 amount[charac] += 1;                      // adicionando a quantidade dela que existe
         }
 }
 
 //IMPRIME O ARQUIVO COMPRESSO
-void print_new_file(FILE *file, hash *hash){
-        rewind(file); // reler o arquivo do início
-        FILE *new_file = fopen("compress.huff", "wb");
+void print_new_file(FILE *file, hash *hash, FILE *new_file){
+
         unsigned char charac;
         unsigned char byte = 0;
         int free           = 8;
@@ -49,6 +53,9 @@ void print_new_file(FILE *file, hash *hash){
                 }
         }
         if(free < 8){
+                if(DEBUG){
+                        printf("\nlast byte: %d\n", byte);
+                }
                 fputc(byte, new_file); //imprimir último byte compresso
         }
 }
@@ -77,4 +84,17 @@ void size_tree(node *tree, unsigned short *size){
                 size_tree(tree->left, size);
                 size_tree(tree->right, size);
         }
+}
+
+void print_sixteen(unsigned short sixteen, FILE *new_file){
+
+        unsigned char byte2 = (unsigned char) sixteen;
+        sixteen           >>= 8;
+        unsigned char byte1 = (unsigned char) sixteen;
+        if(DEBUG){
+                printf("Sixteen_1: %d", byte1);
+                printf("\nSixteen_2: %d\n\n", byte2);
+        }
+        fputc(byte1, new_file);
+        fputc(byte2, new_file);
 }

@@ -28,4 +28,6 @@ int isLeaf(node *tree);
 
 void print_huff_tree(node *node);
 
+void print_huff_tree_in_file(node *node, FILE *new_file);
+
 #endif

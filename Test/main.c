@@ -68,19 +68,30 @@ int main() {
                         //                       c b
 
 
-                        unsigned short trash = 0;
+                        //quero transformar o que der em funções para ficar melhor para apresentar
+                        unsigned short trash   = 0;
                         find_trash(tree, hash, &trash);
-                        trash                = 8 - (trash % 8);
+                        trash                  = (8 - (trash % 8) % 8) ;//Subtrai a quantidade que se preenche por 8 e se for = 8 zera
 
-                        unsigned short size = 0;
+                        unsigned short size    = 0;
                         size_tree(tree, &size);
 
+                        unsigned short hearder = trash;
+                        hearder              <<= 13;
+                        hearder               |= size;
+
+
                         if(DEBUG){
-                                printf("trash: %d\n\n", trash);
+                                printf("trash:     %d\n\n", trash);
                                 printf("size_tree: %d\n\n", size);
+                                printf("hearder:   %d\n\n", hearder);
                         }
 
-                        print_new_file(file, hash);
+                        rewind(file); // reler o arquivo do início
+                        FILE *compress_file = fopen("compress.huff", "wb");
+                        print_sixteen(hearder, compress_file);
+                        print_huff_tree_in_file(tree, compress_file);
+                        print_new_file(file, hash, compress_file);
 
                         break;
 		}

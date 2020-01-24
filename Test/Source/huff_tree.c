@@ -55,3 +55,12 @@ void print_huff_tree(node *node) {
 		printf(")");
 	}
 }
+
+void print_huff_tree_in_file(node *tree, FILE *new_file){
+        if(!isEmpty(tree)){
+                unsigned char byte = tree->charac;
+                fputc(byte, new_file);
+                print_huff_tree_in_file(tree->left, new_file);
+                print_huff_tree_in_file(tree->right, new_file);
+        }
+}
