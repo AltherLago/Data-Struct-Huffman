@@ -9,7 +9,7 @@
 typedef struct hash hash;
 
 struct hash {
-	void *matriz[256][256]; //é no máximo 256x9
+	void *matriz[256][256];
 };
 
 hash *create_hash ();

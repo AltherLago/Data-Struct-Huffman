@@ -9,7 +9,7 @@ typedef struct node node;
 typedef struct pq pq;
 
 struct pq {
-	int size;			//Armazena o tamanho da lista de prioridade
+	int size;   //TODO VOID 	//Armazena o tamanho da lista de prioridade
 	node *head;			//Guarda o nó da cabeça da lista de prioridade
 };
 

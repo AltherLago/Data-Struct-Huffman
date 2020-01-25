@@ -45,7 +45,7 @@ int main() {
 
                         hash *hash = create_hash();
 
-                        int for_bits[256]; // é no máximo 9
+                        int for_bits[256];
                         memset(for_bits, 0, 256);
                         map_bits(hash, tree, 0, for_bits);
 
@@ -58,15 +58,9 @@ int main() {
                         }
 
                         //TODO
-                        // 2 - imprimir o trash e a árvore em pré-ordem nos 13 bits restantes
-                                //shift bit do trash
-                                //contar quantos zeros possuem entre o trash tamanho da tree
-                                //shift bit do tamanho da arvore
-                        //                        1110 0000 0000 0101 **\*\\a
-                        //                         *
-                        //                        *  a
-                        //                       c b
-
+                        // 1- corrigir os voids charac   (huff_tree)
+                        // 2- corrigir os voids priority (huff_tree)
+                        // 3- corrigir os voids size     (pq)
 
                         //quero transformar o que der em funções para ficar melhor para apresentar
                         unsigned short trash   = 0;

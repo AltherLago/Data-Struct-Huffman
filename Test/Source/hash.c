@@ -17,7 +17,7 @@ hash *create_hash () {
 void add_hash(hash *hash, unsigned char item, int total_bits, int sequency[]) {
 	int i;
 	for(i = 0; i < total_bits + 1; i++) {
-		hash->matriz[item][i + 1] = sequency[i];//Preenche em linha a sequência da letra
+		hash->matriz[item][i + 1] = (void*) sequency[i];//Preenche em linha a sequência da letra
 	}                                               //na posição dela na tabela ASCII
 	hash->matriz[item][i] = '\0';
 }
@@ -25,11 +25,11 @@ void add_hash(hash *hash, unsigned char item, int total_bits, int sequency[]) {
 //PERCORRE A ÁRVORE BUSCANDO AS FOLHAS PARA CRIAR A SEQUÊNCIA DE BITS
 void map_bits(hash *hash, node *tree, int i, int for_bits[]) {
 	if(isLeaf(tree)) {
-	        hash->matriz[tree->charac][0] = i + '0'; //Adiciona o tamanho do caminho
-		add_hash(hash, tree->charac, i, for_bits);
+	        hash->matriz[tree->charac][0] = (void *) (i + '0'); //Adiciona o tamanho do caminho
+		add_hash(hash, tree->charac, i, for_bits); //talvez todo void
 
 		if(DEBUG){
-		        printf("C: %c Total Bits: %d\n", tree->charac, i);
+		        printf("C: %c Total Bits: %d\n", tree->charac, i); //todo void
 		}
 		return;
 	}
