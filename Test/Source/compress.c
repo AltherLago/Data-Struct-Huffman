@@ -56,6 +56,7 @@ void print_new_file(FILE *file, hash *hash, FILE *new_file){
                 if(DEBUG){
                         printf("\nlast byte: %d\n", byte);
                 }
+                byte <<= free;
                 fputc(byte, new_file); //imprimir último byte compresso
         }
 }
