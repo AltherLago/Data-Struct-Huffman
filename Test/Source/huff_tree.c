@@ -58,6 +58,10 @@ void print_huff_tree(node *node) {
 
 void print_huff_tree_in_file(node *tree, FILE *new_file){
         if(!isEmpty(tree)){
+        		if(isLeaf(tree) && (tree->charac == '*' || tree->charac == 92)) {
+        			unsigned char c = 92;
+        			fputc(c, new_file);
+        		}
                 unsigned char byte = tree->charac; //TODO VOID
                 fputc(byte, new_file);
                 print_huff_tree_in_file(tree->left, new_file);
