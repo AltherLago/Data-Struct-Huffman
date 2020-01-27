@@ -1,18 +1,19 @@
 #include "../Headers/compress.h"
 
-#define DEBUG 1
+#define DEBUG 0
 
 //CONTA A FREQUÊNCIA DE CADA CARACTER
 void frequency(FILE *file, int amount[]) {
         unsigned char charac;        
         while(fscanf(file, "%c", &charac) != EOF) {// Charac é o valor do caracter na tabela ASCII,
 
-                if(charac == NULL){                       //concertar possíveis bugs com NULL
-                        amount[0] += 1;
-                        continue;
-                }
+                // if(charac == NULL){                       //concertar possíveis bugs com NULL
+                //         amount[0] += 1;
+                //         continue;
+                // }
                 amount[charac] += 1;                      // adicionando a quantidade dela que existe
         }
+        amount[10] -= 1;
 }
 
 //IMPRIME O ARQUIVO COMPRESSO
@@ -33,14 +34,14 @@ void print_new_file(FILE *file, hash *hash, FILE *new_file){
                                 free = 8;
                                 byte = 0;
                         }
-                        if(hash->matriz[charac][i] == (unsigned char*) '0'){
+                        if(hash->matriz[charac][i] == (unsigned char *) '0'){
                                 byte <<= 1;
                                 free--;
-                        } else if (hash->matriz[charac][i] == (unsigned char*) '1'){
+                        } else if (hash->matriz[charac][i] == (unsigned char *) '1'){
                                 byte <<= 1;
                                 byte++;
                                 free--;
-                        }else{
+                        } else{
                                 break;
                         }
 
@@ -59,6 +60,8 @@ void print_new_file(FILE *file, hash *hash, FILE *new_file){
                 byte <<= free;
                 fputc(byte, new_file); //imprimir último byte compresso
         }
+        fclose(new_file);
+        fclose(file);
 }
 
 //CALCULA O TAMANHO DE BITS PRESENTE NO ARQUIVO
@@ -88,7 +91,6 @@ void size_tree(node *tree, unsigned short *size){
 }
 
 void print_sixteen(unsigned short sixteen, FILE *new_file){
-
         unsigned char byte2 = (unsigned char) sixteen;
         sixteen           >>= 8;
         unsigned char byte1 = (unsigned char) sixteen;
