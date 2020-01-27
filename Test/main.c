@@ -1,4 +1,3 @@
-//gcc -g main.c pq.c huff_tree.c hash.c compress.c -o huff -w
 #include <stdlib.h>
 #include <stdio.h>
 #include "Headers/pq.h"
@@ -6,7 +5,7 @@
 #include "Headers/hash.h"
 #include "Headers/compress.h"
 
-#define DEBUG 1
+#define DEBUG 0
 
 int main() {
         printf("\n\n\nENTREI\n\n\n");
@@ -33,61 +32,62 @@ int main() {
 
 			frequency(file, amount);
 
-			pq *pq_amount = create_pq();
+            pq *pq_amount = create_pq();
 			pq_amount     = enqueue_amount(amount);
-
-			if(DEBUG){
-                                print_pq(pq_amount);
-                                printf("\n");
+            
+            if(DEBUG){
+                print_pq(pq_amount);
+                printf("\n");
 			}
 
-                        node *tree = create_huff(pq_amount);
+            node *tree = create_huff(pq_amount);
 
-                        hash *hash = create_hash();
+            hash *hash = create_hash();
 
-                        int for_bits[256];
-                        memset(for_bits, 0, 256);
-                        map_bits(hash, tree, 0, for_bits);
+            int for_bits[256];
+            memset(for_bits, 0, 256);
+            map_bits(hash, tree, 0, for_bits);
 
-                        if(DEBUG) {
-                                puts("");
-                                print_huff_tree(tree);
-                                printf("\n\n");
-                                print_hash(hash);
-                                printf("\n");
-                        }
+            if(DEBUG) {
+                puts("");
+                print_huff_tree(tree);
+                printf("\n\n");
+                print_hash(hash);
+                printf("\n");
+            }
 
-                        //TODO
-                        // 1- corrigir os voids charac   (huff_tree)
-                        // 2- corrigir os voids priority (huff_tree)
-                        // 3- corrigir os voids size     (pq)
+            //TODO
+            // 1- corrigir os voids charac   (huff_tree)
+            // 2- corrigir os voids priority (huff_tree)
+            // 3- corrigir os voids size     (pq)
 
-                        //quero transformar o que der em funções para ficar melhor para apresentar
-                        unsigned short trash   = 0;
-                        find_trash(tree, hash, &trash);
-                        trash                  = (8 - (trash % 8) % 8) ;//Subtrai a quantidade que se preenche por 8 e se for = 8 zera
+            //quero transformar o que der em funções para ficar melhor para apresentar
+            unsigned short trash   = 0;
+            find_trash(tree, hash, &trash);
+            trash                  = (8 - (trash % 8) % 8) ;//Subtrai a quantidade que se preenche por 8 e se for = 8 zera
+                        //printf("\n%d -- lixo\n", trash);
 
-                        unsigned short size    = 0;
-                        size_tree(tree, &size);
+            unsigned short size    = 0;
+            size_tree(tree, &size);
 
-                        unsigned short hearder = trash;
-                        hearder              <<= 13;
-                        hearder               |= size;
+            unsigned short hearder = trash;
+            hearder              <<= 13;
+            hearder               |= size;
 
 
-                        if(DEBUG){
-                                printf("trash:     %d\n\n", trash);
-                                printf("size_tree: %d\n\n", size);
-                                printf("hearder:   %d\n\n", hearder);
-                        }
+            if(DEBUG){
+                    printf("trash:     %d\n\n", trash);
+                    printf("size_tree: %d\n\n", size);
+                    printf("hearder:   %d\n\n", hearder);
+            }
 
-                        rewind(file); // reler o arquivo do início
-                        FILE *compress_file = fopen("compress.huff", "wb");
-                        print_sixteen(hearder, compress_file);
-                        print_huff_tree_in_file(tree, compress_file);
-                        print_new_file(file, hash, compress_file);
+            rewind(file); // reler o arquivo do início
+            FILE *compress_file = fopen("compress.huff", "wb");
+            print_sixteen(hearder, compress_file);
+            print_huff_tree_in_file(tree, compress_file);
+            print_new_file(file, hash, compress_file);
 
-                        break;
+            break;
 		}
 		else if(option == 2) {
 			char format[20], input_file[256];
@@ -102,7 +102,6 @@ int main() {
 				printf("Invalid file.\n");
 				break;
 			}
-
 
 
 			break;
