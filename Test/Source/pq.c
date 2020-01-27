@@ -5,7 +5,7 @@
 pq* create_pq() {
 	pq* new_queue   = (pq*) malloc(sizeof(pq));
 	new_queue->head = NULL;
-	new_queue->size = 0; //todo void
+	new_queue->size = 0;
 	return new_queue;
 }
 
@@ -29,9 +29,9 @@ pq* enqueue_amount(int amount[]) {
 }
 
 //CRIA E RETORNA O NÓ DA "PRÉ" ÁRVORE
-node* c_tree(unsigned char charac, int amount, node *left, node *right) { //todo void
+node* c_tree(unsigned char charac, int amount, node *left, node *right) {
 	node *tree     = (node*) malloc(sizeof(node));
-	tree->charac   = charac; //todo void
+	tree->charac   = charac;
 	tree->priority = amount;
 	tree->next     = NULL;
 	tree->left     = left;
@@ -44,13 +44,13 @@ node* c_tree(unsigned char charac, int amount, node *left, node *right) { //todo
 void enqueue(pq *pq, node *tree) {
 	node *aux = tree;
 
-	if(pq->size == 0) { //Primeiro elemento da fila vazia //todo void
-		pq->size += 1; //todo void
+	if(pq->size == 0) { //Primeiro elemento da fila vazia
+		pq->size += 1;
 		aux->next = pq->head;
 		pq->head  = aux;
 	}
 	else {
-		pq->size      += 1; //todo void
+		pq->size      += 1;
 		node *current  = pq->head;
 		node *previous = NULL;
 
@@ -76,7 +76,7 @@ void enqueue(pq *pq, node *tree) {
 node *dequeue(pq *pq) {
 	node *aux = pq->head;
 	pq->head  = pq->head->next;
-	pq->size -= 1; //todo void
+	pq->size -= 1;
 	return aux;
 }
 
@@ -85,7 +85,7 @@ void print_pq(pq *pq) {
 	node *node = pq->head;
 
 	while(node != NULL) {
-		printf("%d -> %d\n", node->charac, node->priority); //todo void
+		printf("%d -> %d\n", node->charac, node->priority);
 		node = node->next;
 	}
 }
