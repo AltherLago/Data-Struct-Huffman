@@ -2,7 +2,7 @@
 
 node* create_node() {
 	node* new_node     = (node*) malloc(sizeof(node));
-	new_node->priority = 0; //TODO VOID
+	new_node->priority = 0;
 	new_node->left     = NULL;
 	new_node->right    = NULL;
 	new_node->next     = NULL ;
@@ -24,10 +24,10 @@ node *create_huff(pq *pq) {
 //CONSTRÓI A ÁRVORE COM A SOMA DOS CARACTERES DE MENOR FREQUÊNCIA E OS COLOCA COMO FOLHAS
 node *create_huff_node(node *left, node *right) {
         node *huff     = (node*) malloc(sizeof(node));
-        huff->priority = left->priority + right->priority;//Soma dos dois de menor frequência //TODO VOID
+        huff->priority = ((int) left->priority) + ((int) right->priority);//Soma dos dois de menor frequência
         huff->left     = left;
         huff->right    = right;
-        huff->charac   = '*'; //TODO VOID
+        huff->charac   = '*';
         huff->next     = NULL;
 
         return huff;
@@ -49,7 +49,7 @@ void print_huff_tree(node *node) {
 		return;
 	}
 	else {
-		printf("(%u", node->charac); //TODO VOID
+		printf("(%u", node->charac);
 		print_huff_tree(node->left);
 		print_huff_tree(node->right);
 		printf(")");
@@ -62,7 +62,7 @@ void print_huff_tree_in_file(node *tree, FILE *new_file){
         			unsigned char c = 92;
         			fputc(c, new_file);
         		}
-                unsigned char byte = tree->charac; //TODO VOID
+                unsigned char byte = tree->charac;
                 fputc(byte, new_file);
                 print_huff_tree_in_file(tree->left, new_file);
                 print_huff_tree_in_file(tree->right, new_file);
