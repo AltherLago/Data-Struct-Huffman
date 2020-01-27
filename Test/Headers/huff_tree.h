@@ -10,7 +10,7 @@
 
 struct node {
 	unsigned char charac;		//Armazena o caracter
-	int priority;			//Alterar para void *priority //Armazena a prioridade
+	void *priority;			//Armazena a prioridade
 	node *left;			//Guarda o ponteiro do lado esquedo
 	node *right;			//Guarda o ponteiro do lado direito
 	node *next;			//Guarda o ponteiro para o próximo
