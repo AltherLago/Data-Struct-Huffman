@@ -67,7 +67,7 @@ void print_new_file(FILE *file, hash *hash, FILE *new_file){
 //CALCULA O TAMANHO DE BITS PRESENTE NO ARQUIVO
 void find_trash(node *tree, hash *hash, unsigned short *size_trash){
         if(isLeaf(tree)){
-                *size_trash += ( (int) (int*) hash->matriz[tree->charac][0] - '0' ) * tree->priority;
+                *size_trash += ( (int) (int*) hash->matriz[tree->charac][0] - '0' ) * (int) tree->priority;
         }
         else if (tree->charac == '*'){
                 find_trash(tree->left, hash, size_trash);
