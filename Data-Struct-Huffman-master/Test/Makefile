@@ -1,0 +1,10 @@
+CC = gcc
+CFLAGS = -w -g
+SOURCES = Source/compress.c Source/hash.c Source/huff_tree.c Source/pq.c Source/descompress.c
+HEADERS = Headers/compress.h Headers/hash.h Headers/huff_tree.h Headers/pq.h Headers/descompress.h
+
+compile: main.c
+	${CC} ${CFLAGS} ${SOURCES} ${HEADERS} -o main main.c
+
+clean:
+	rm main.exe
