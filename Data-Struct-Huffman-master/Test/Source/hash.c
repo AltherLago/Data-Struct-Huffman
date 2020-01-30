@@ -1,3 +1,4 @@
+
 #include "../Headers/hash.h"
 #define DEBUG 0
 
@@ -17,8 +18,10 @@ hash *create_hash () {
 void add_hash(hash *hash, unsigned char item, int total_bits, int sequency[]) {
 	int i;
 	for(i = 0; i < total_bits + 1; i++) {
-		hash->matriz[item][i + 1] = (void *) sequency[i];//Preenche em linha a sequência da letra
-	}                                               //na posição dela na tabela ASCII
+		hash->matriz[item][i + 1] = (void *) sequency[i];
+		//Preenche em linha a sequência do caminho da letra
+                //na posição dela na tabela ASCII
+	}
 	hash->matriz[item][i] = '\0';
 }
 
@@ -29,7 +32,7 @@ void map_bits(hash *hash, node *tree, int i, int for_bits[]) {
 		add_hash(hash, tree->charac, i, for_bits);
 
 		if(DEBUG){
-		        printf("C: %c Total Bits: %d\n", tree->charac, i);
+		        printf("Charac: %c Total Bits: %d\n", tree->charac, i);
 		}
 		return;
 	}
