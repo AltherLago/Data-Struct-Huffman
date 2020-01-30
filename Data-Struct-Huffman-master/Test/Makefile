@@ -8,7 +8,7 @@ DESCOMPRESS = Source/descompress.c Headers/descompress.h
 TEST = CUnit.c
 
 compile:
-	gcc $(CFLAGS) $(P_QUEUE)	$(HASH)	$(TREE)	$(MAIN)	$(COMPRESS)	$(DESCOMPRESS) -o	main
+	gcc $(CFLAGS) $(P_QUEUE)	$(HASH)	$(TREE)	$(MAIN)	$(COMPRESS)	$(DESCOMPRESS) -o	main -lm
 
 test:
-		gcc $(CFLAGS) $(P_QUEUE)	$(HASH)	$(TREE)	$(COMPRESS)	$(DESCOMPRESS) $(TEST) -o	test -lcunit
+		gcc $(CFLAGS) $(P_QUEUE)	$(HASH)	$(TREE)	$(COMPRESS)	$(DESCOMPRESS) $(TEST) -o	test -lm -lcunit
