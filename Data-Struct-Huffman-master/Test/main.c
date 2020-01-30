@@ -8,8 +8,25 @@
 
 #define DEBUG 0
 
+void menu() {
+    system("clear");
+    printf("\n\n\t\t\t###       ### ###       ### ############# ############# #####                    #####    #######    #####          ###");
+    printf("\n\t\t\t###       ### ###       ### ############# ############# ######                  ######   #########   ######         ###");
+    printf("\n\t\t\t###       ### ###       ### ###           ###           ### ###                ### ###  ####   ####  ### ###        ###");
+    printf("\n\t\t\t###       ### ###       ### ###           ###           ###  ###              ###  ### ####     #### ###  ###       ###");
+    printf("\n\t\t\t###       ### ###       ### ###           ###           ###   ###            ###   ### ###       ### ###   ###      ###");
+    printf("\n\t\t\t############# ###       ### ############# ############# ###    ###          ###    ### ############# ###    ###     ###");
+    printf("\n\t\t\t############# ###       ### ############# ############# ###     ###        ###     ### ############# ###     ###    ###");
+    printf("\n\t\t\t###       ### ###       ### ###           ###           ###      ###      ###      ### ###       ### ###      ###   ###");
+    printf("\n\t\t\t###       ### ####     #### ###           ###           ###       ###    ###       ### ###       ### ###       ###  ###");
+    printf("\n\t\t\t###       ###  ####   ####  ###           ###           ###        ###  ###        ### ###       ### ###        ### ###");
+    printf("\n\t\t\t###       ###   #########   ###           ###           ###         ######         ### ###       ### ###         ######");
+    printf("\n\t\t\t###       ###    #######    ###           ###           ###          ####          ### ###       ### ###          #####\n\n\n");
+}
+
 int main() {
-        printf("\n\n\nENTREI\n\n\n");
+    menu();
+
 	while(1) {
 		printf("1 - Compress\n");
 		printf("2 - Descompress\n");
@@ -22,7 +39,7 @@ int main() {
 		if(option == 1) {
 			printf("FILE NAME: ");
 			scanf(" %[^\n]", name);
-			printf("\n\n");
+			printf("\n");
 
 			FILE *file = fopen(name, "rb");
 
@@ -49,24 +66,21 @@ int main() {
             memset(for_bits, 0, 256);
             map_bits(hash, tree, 0, for_bits);
 
-            if(DEBUG) {
+            if(!DEBUG) {
                 puts("");
                 print_huff_tree(tree);
                 printf("\n\n");
-                print_hash(hash);
+                //print_hash(hash);
                 printf("\n");
             }
-
-            //TODO
-            // 1- corrigir os voids charac   (huff_tree)
-            // 2- corrigir os voids priority (huff_tree)
-            // 3- corrigir os voids size     (pq)
 
             //quero transformar o que der em funções para ficar melhor para apresentar
             unsigned short trash   = 0;
             find_trash(tree, hash, &trash);
             trash                  = (8 - (trash % 8) % 8) ;//Subtrai a quantidade que se preenche por 8 e se for = 8 zera
-                        //printf("\n%d -- lixo\n", trash);
+            if(trash == 8) {
+                trash = 0;
+            }
 
             unsigned short size    = 0;
             size_tree(tree, &size);
@@ -92,10 +106,8 @@ int main() {
 		}
 		else if(option == 2) {
 			char format[20], input_file[256];
-			printf("Input file name: (Ex.: file.huff)\n\n");
+			printf("Input file name: \nEx.: file.huff\n\n");
 			scanf("%s", input_file);
-			printf("Output format: (Ex.: png)\n\n");
-			scanf("%s", format);
 
 			FILE *in_file = fopen(input_file, "rb");
 
@@ -103,12 +115,18 @@ int main() {
 				printf("Invalid file.\n");
 				break;
 			}
+			printf("Output format: \nEx.: png\n\n");
+			scanf("%s", format);
+
             unsigned short size_tree;
             unsigned short size_trash;
-            read_header(in_file,&size_tree,&size_trash);
+            read_header(in_file, &size_tree, &size_trash);
+
+            unsigned short tree_array = get_tree(in_file, size_tree);
+            build_tree(tree_array, size_tree);
+
 			break;
 		}
-        
 		else if(option == 3) {
 			break;
 		}
