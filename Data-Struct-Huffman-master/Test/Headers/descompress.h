@@ -17,9 +17,7 @@ void read_header(FILE *in_file, unsigned short *size_tree, unsigned short *size_
 
 node_tree *new_node(unsigned short charac, node_tree *left, node_tree *right);
 
-node_tree *get_tree(unsigned char tree_array[], unsigned short size_tree, int *i, node_tree *tree);
-
-void tree_array(FILE *in_file, unsigned short size_tree, unsigned char *tree_array[]);
+node_tree *get_tree(FILE *in_file, unsigned short size_tree, int *i, node_tree *tree);
 
 void print_dec_tree(node_tree *node);
 
