@@ -10,6 +10,23 @@ node_tree *new_node(unsigned short charac, node_tree *left, node_tree *right) {
     return new;
 }
 
+int isDempty(node_tree *tree) {
+	return (tree == NULL);
+}
+
+void print_dec_tree(node_tree *node) {
+	if(isDempty(node)) {
+		printf("()");
+		return;
+	}
+	else {
+		printf("(%d", node->charac);
+		print_dec_tree(node->left);
+		print_dec_tree(node->right);
+		printf(")");
+	}
+}
+
 void read_header(FILE *in_file, unsigned short *size_tree, unsigned short *size_trash) {
     unsigned char byte1;
     unsigned char byte2;
@@ -39,26 +56,33 @@ void read_header(FILE *in_file, unsigned short *size_tree, unsigned short *size_
     }
 }
 
-node_tree *build_tree(unsigned short tree_array, unsigned short size_tree) {
-    if(tree_array == '*') {
-        //node_tree left = build_tree(tree_array + 1, size_tree);
-        //build_tree(tree_array + 1, size_tree);
-
+node_tree *get_tree(unsigned char tree_array[], unsigned short size_tree, int *i, node_tree *tree) {
+    if(i != size_tree) {
+        i += 1;
+        printf("%d\n", i);
+        if(tree_array[*i] == '*') {
+            tree = new_node(tree_array[*i], NULL, NULL);
+            tree->left = get_tree(tree_array, size_tree, &i, tree->left);
+            tree->right = get_tree(tree_array, size_tree, &i, tree->right);
+        }
+        else {
+            if(tree_array[*i] == 92) {
+                i += 1;
+                tree = new_node(tree_array[*i], NULL, NULL);
+                i += 1;
+            } 
+            else {
+                tree = new_node(tree_array[*i], NULL, NULL);
+                i += 1;
+            }
+        }
     }
-    else if(tree_array == 92) {
-        tree_array += 1;
-    }
-
+    return tree;
 }
 
-unsigned short get_tree(FILE *in_file, unsigned short size_tree) {
-    int *tree_array;
-    tree_array = (unsigned short *) malloc(sizeof(unsigned short) * (size_tree));
-
+void tree_array(FILE *in_file, unsigned short size_tree, unsigned char *t_array[]) {
     for(int i = 0; i < size_tree; i++) {
-        tree_array[i] = getc(in_file);
-        printf("%d\n", tree_array[i]);
+        t_array[i] = getc(in_file);
+        //printf("%d ", t_array[i]);
     }
-
-    return tree_array;
 }
