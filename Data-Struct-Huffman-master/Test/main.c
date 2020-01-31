@@ -56,7 +56,7 @@ int main() {
             if(DEBUG){
                 print_pq(pq_amount);
                 printf("\n");
-	    }
+	        }
 
             node *tree = create_huff(pq_amount);
 
@@ -88,9 +88,9 @@ int main() {
 
 
             if(DEBUG){
-                    printf("trash:     %d\n\n", trash);
-                    printf("size_tree: %d\n\n", size);
-                    printf("hearder:   %d\n\n", header);
+                printf("trash:     %d\n\n", trash);
+                printf("size_tree: %d\n\n", size);
+                printf("hearder:   %d\n\n", header);
             }
 
             rewind(file); // reler o arquivo do início
@@ -118,9 +118,14 @@ int main() {
             unsigned short size_tree;
             unsigned short size_trash;
             read_header(in_file, &size_tree, &size_trash);
-
-            unsigned short tree_array = get_tree(in_file, size_tree);
-            build_tree(tree_array, size_tree);
+            
+            node_tree *dec_tree;
+            unsigned char t_array[size_tree];
+            tree_array(in_file, size_tree, &t_array);
+            int i = 0;
+            int *count = i;
+            dec_tree = get_tree(t_array, size_tree, &count, dec_tree);
+            //print_dec_tree(dec_tree);
 
 			break;
 		}
