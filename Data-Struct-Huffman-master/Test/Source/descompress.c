@@ -13,7 +13,7 @@ node_tree *new_node(unsigned short charac, node_tree *left, node_tree *right) {
 int isDempty(node_tree *tree) {
 	return (tree == NULL);
 }
-/*
+
 void print_dec_tree(node_tree *node) {
 	if(isDempty(node)) {
 		printf("()");
@@ -26,7 +26,7 @@ void print_dec_tree(node_tree *node) {
 		printf(")");
 	}
 }
-*/
+
 void read_header(FILE *in_file, unsigned short *size_tree, unsigned short *size_trash) {
     unsigned char byte1;
     unsigned char byte2;
@@ -60,7 +60,6 @@ node_tree *get_tree(FILE *in_file, unsigned short size_tree, int *i, node_tree *
     if(i != size_tree) {
         unsigned char c = getc(in_file);
         i += 1;
-        printf("%d\n", i);
         if(c == '*') {
             tree = new_node(c, NULL, NULL);
             tree->left = get_tree(in_file, size_tree, &i, tree->left);
@@ -81,3 +80,4 @@ node_tree *get_tree(FILE *in_file, unsigned short size_tree, int *i, node_tree *
     }
     return tree;
 }
+
