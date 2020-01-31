@@ -46,7 +46,14 @@ void size_tree(node *tree, unsigned short *size){
                 size_tree(tree->right, size);
         }
 }
+//PREENCHE O CABEÇALHO
+void complete_header(unsigned short trash, unsigned short size, unsigned short *header){
+        *header   = trash;
+        *header <<= 13;
+        *header  |= size;
+}
 
+//IMPRIME O CABEÇALHO NO ARQUIVO COMPRESSO
 void print_header(unsigned short sixteen, FILE *new_file){
         unsigned char byte2 = (unsigned char) sixteen;
         sixteen           >>= 8;

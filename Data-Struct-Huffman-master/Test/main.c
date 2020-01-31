@@ -6,7 +6,7 @@
 #include "Headers/compress.h"
 #include "Headers/descompress.h"
 
-#define DEBUG 1
+#define DEBUG 0
 
 void menu() {
     system("clear");
@@ -74,7 +74,6 @@ int main() {
                 printf("\n");
             }
 
-            //quero transformar o que der em funções para ficar melhor para apresentar
             unsigned short trash   = 0;
             total_bits(tree, hash, &trash);
             mod_trash (&trash);
@@ -82,10 +81,8 @@ int main() {
             unsigned short size    = 0;
             size_tree(tree, &size);
 
-            unsigned short header = trash;
-            header              <<= 13;
-            header               |= size;
-
+            unsigned short header  = 0;
+            complete_header(trash, size, &header);
 
             if(DEBUG){
                 printf("trash:     %d\n\n", trash);
@@ -102,7 +99,8 @@ int main() {
             break;
 		}
 		else if(option == 2) {
-			char format[20], input_file[256];
+			char format[20],
+			input_file[256];
 			printf("Input file name: \nEx.: file.huff\n\n");
 			scanf("%s", input_file);
 
@@ -121,9 +119,13 @@ int main() {
             
             node_tree *dec_tree;
             unsigned char t_array[size_tree];
-            int *count = 0;
-            dec_tree = get_tree(in_file, size_tree, &count, dec_tree);
-            //print_dec_tree(dec_tree);
+            int count  = 0;
+            dec_tree   = get_tree(in_file, size_tree, &count, dec_tree);
+
+            if(DEBUG){
+                    print_dec_tree(dec_tree);
+                    puts("\n");
+            }
 
 			break;
 		}

@@ -15,6 +15,8 @@ void mod_trash(unsigned short * size_trash);
 
 void size_tree(node *tree, unsigned short *size);
 
+void complete_header(unsigned short trash, unsigned short size, unsigned short *header);
+
 void print_header(unsigned short sixteen, FILE *new_file);
 
 void print_huff_tree_in_file(node *node, FILE *new_file);
