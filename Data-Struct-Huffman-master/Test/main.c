@@ -121,10 +121,8 @@ int main() {
             
             node_tree *dec_tree;
             unsigned char t_array[size_tree];
-            tree_array(in_file, size_tree, &t_array);
-            int i = 0;
-            int *count = i;
-            dec_tree = get_tree(t_array, size_tree, &count, dec_tree);
+            int *count = 0;
+            dec_tree = get_tree(in_file, size_tree, &count, dec_tree);
             //print_dec_tree(dec_tree);
 
 			break;
