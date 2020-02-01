@@ -121,13 +121,20 @@ int main() {
                 unsigned char t_array[size_tree];
             int count  = 0;
             dec_tree   = get_tree(in_file, size_tree, &count, dec_tree);
-            FILE *descompress_file = fopen("descompress.txt", "wb");
-            write_file(in_file,descompress_file,size_trash,size_tree,dec_tree);
+
+            unsigned char out_file[256];
+            strcpy(out_file, "descompress.");
+            strcat(out_file, format);
+
+            FILE *descompress_file = fopen(out_file, "wb");
+            write_file(in_file, descompress_file, size_trash,size_tree, dec_tree);
+            
             fclose(in_file);
             fclose(descompress_file);
+            
             if(DEBUG){
-                    print_dec_tree(dec_tree);
-                    puts("\n");
+                print_dec_tree(dec_tree);
+                puts("\n");
             }
 
 			break;
