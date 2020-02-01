@@ -1,13 +1,13 @@
 # Data-Struct-Huffman
 
-## Equipe:
+### Equipe:
   Alther Lago
   Ramon Basto
   Thallyson Silva
   
-## Seminário
+### Seminário
   Árvore Red-Black
   
-## C/P
+### C/P
   Lista vs. ABB
   
