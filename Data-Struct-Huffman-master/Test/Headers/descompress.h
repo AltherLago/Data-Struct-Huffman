@@ -23,4 +23,10 @@ void print_dec_tree(node_tree *node);
 
 int isDempty(node_tree *tree);
 
+int is_bit_set(unsigned char character, int position);
+
+int isDLeaf(node_tree *tree);
+
+void write_file(FILE *in_file, FILE *descompress_file,unsigned short size_trash,unsigned short size_tree,node_tree *huff);
+
 #endif
