@@ -105,7 +105,7 @@ int main() {
 			scanf("%s", input_file);
 
 			FILE *in_file = fopen(input_file, "rb");
-
+ 
 			if(in_file == NULL) {
 				printf("Invalid file.\n");
 				break;
@@ -118,10 +118,13 @@ int main() {
             read_header(in_file, &size_tree, &size_trash);
             
             node_tree *dec_tree;
-            unsigned char t_array[size_tree];
+                unsigned char t_array[size_tree];
             int count  = 0;
             dec_tree   = get_tree(in_file, size_tree, &count, dec_tree);
-
+            FILE *descompress_file = fopen("descompress.txt", "wb");
+            write_file(in_file,descompress_file,size_trash,size_tree,dec_tree);
+            fclose(in_file);
+            fclose(descompress_file);
             if(DEBUG){
                     print_dec_tree(dec_tree);
                     puts("\n");
