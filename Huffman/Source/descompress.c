@@ -20,15 +20,15 @@ void read_header(FILE *in_file, unsigned short *size_tree, unsigned short *size_
     *size_tree  |=  byte2;
 }
 
-node_tree *get_tree(FILE *in_file, unsigned short size_tree, int *i, node_tree *tree) {
+node_tree *build_tree(FILE *in_file, unsigned short size_tree, int *i, node_tree *tree) {
     //cria a árvore de forma recursiva
     if((unsigned short) i != size_tree) {
         unsigned char charac = getc(in_file);
         i += 1;
         if(charac == '*') {
             tree        = new_node(charac, NULL, NULL);
-            tree->left  = get_tree(in_file, size_tree, i, tree->left);
-            tree->right = get_tree(in_file, size_tree, i, tree->right);
+            tree->left  = build_tree(in_file, size_tree, i, tree->left);
+            tree->right = build_tree(in_file, size_tree, i, tree->right);
         }
         else {
             if(charac == 92) {
@@ -128,17 +128,3 @@ void write_file(FILE *in_file, FILE *descompress_file,unsigned short size_trash,
 int isDempty(node_tree *tree) {
 	return (tree == NULL);
 }
-
-void print_dec_tree(node_tree *node) {
-	if(isDempty(node)) {
-		printf("()");
-		return;
-	}
-	else {
-		printf("(%d", node->charac);
-		print_dec_tree(node->left);
-		print_dec_tree(node->right);
-		printf(")");
-	}
-}
-
