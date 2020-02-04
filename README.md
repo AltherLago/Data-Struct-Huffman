@@ -1,9 +1,9 @@
 # Data-Struct-Huffman
 
 ### Equipe:
-  Alther Lago\n
-  Ramon Basto\n
-  Thallyson Silva\n
+  Alther Lago
+  Ramon Basto
+  Thallyson Silva
   
 ### Seminário
   Árvore Red-Black
