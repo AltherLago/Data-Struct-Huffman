@@ -1,14 +1,11 @@
 #include "../Headers/compress.h"
 
-#define DEBUG 0
-
 //CONTA A FREQUÊNCIA DE CADA CARACTER
 void frequency(FILE *file, int amount[]) {
-        unsigned char charac;        
+        unsigned char charac;
         while(fscanf(file, "%c", &charac) != EOF) {// Charac é o valor do caracter na tabela ASCII,
                 amount[charac] += 1;                      // adicionando a quantidade dela que existe
         }
-        //amount[10] -= 1;
 }
 
 //CALCULA O TOTAL DE BITS PRESENTE NO ARQUIVO
@@ -58,10 +55,6 @@ void print_header(unsigned short sixteen, FILE *new_file){
         unsigned char byte2 = (unsigned char) sixteen;
         sixteen           >>= 8;
         unsigned char byte1 = (unsigned char) sixteen;
-        if(DEBUG){
-                printf("Sixteen_1: %d", byte1);
-                printf("\nSixteen_2: %d\n\n", byte2);
-        }
         fputc(byte1, new_file);
         fputc(byte2, new_file);
 }
@@ -76,7 +69,7 @@ void print_new_file(FILE *file, hash *hash, FILE *new_file){
         int size_way       = 0;
 
         while (fscanf(file, "%c", &charac) != EOF){
-                size_way = (int) (int*) (hash->matriz[charac][0] - '0');
+                size_way = (int) (int *) (hash->matriz[charac][0] - '0');
                 fill     = size_way;
                 int i    = 1; //count position
 
@@ -97,18 +90,11 @@ void print_new_file(FILE *file, hash *hash, FILE *new_file){
                                 break;
                         }
 
-                        if(DEBUG){
-                                printf("charac: %c i: %d byte: %d fill: %d free: %d\n", charac, i, byte, fill, free);
-                        }
-
                         i++;
                         fill--;
                 }
         }
         if(free < 8){
-                if(DEBUG){
-                        printf("\nlast byte: %d\n", byte);
-                }
                 byte <<= free;
                 fputc(byte, new_file); //imprimir último byte compresso
         }
