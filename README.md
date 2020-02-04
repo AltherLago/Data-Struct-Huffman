@@ -1,8 +1,8 @@
 # Data-Struct-Huffman
 
 ### Equipe:
-  Alther Lago
-  Ramon Basto
+  Alther Lago -
+  Ramon Basto - 
   Thallyson Silva
   
 ### Seminário
