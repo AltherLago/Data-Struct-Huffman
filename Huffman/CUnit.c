@@ -121,6 +121,7 @@ void p_queue_tests() {
 	CU_ASSERT(node_test->charac == 'e');
 	CU_ASSERT(node_test->priority == (int *) 1);
 	node_test = dequeue(pq);
+	CU_ASSERT(pq->size == 3);	
 	CU_ASSERT(node_test->charac == 'c');
 	CU_ASSERT(node_test->priority == (int *) 1);
 	CU_ASSERT(pq->head->charac == 'b');
