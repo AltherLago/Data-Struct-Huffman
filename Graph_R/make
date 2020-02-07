@@ -1,0 +1,6 @@
+CFLAGS = -w -g
+MAIN   = main.c
+PLOT   = plot.c plot.h
+
+compile:
+	gcc $(CFLAGS) $(PLOT) $(MAIN)-o	plot
